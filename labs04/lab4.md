@@ -56,6 +56,64 @@ kubectl create secret generic secrets --from-literal password=ReallySecret --nam
 </p>
 </details>
 <br/>
+7. Create the lab3frontend.yaml file to add a `volume` to the deployment with a `name` of `secret-volume` and a `type` of `secret`, referencing your newly-created `secret`. Add a `volumeMount` to the container that mounts your secret at `/data`
+
+<details><summary>show YAML</summary>
+<p>
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: lab3frontend
+  name: lab3frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lab3frontend
+  template:
+    metadata:
+      labels:
+        app: lab3frontend
+    spec:
+      containers:
+      - image: public.ecr.aws/qa-wfl/qa-wfl/qakf/sfe:v1
+        name: sfe
+        env:
+        - name: COLOUR
+          valueFrom:
+            configMapKeyRef:
+              name: settings
+              key: colour        
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+# ------ Add these lines ------
+        volumeMounts:
+        - name: secret-volume
+          mountPath: /data
+      volumes:
+      - name: secret-volume
+        secret:
+          secretName: secrets
+# -----------------------------
+```
+
+</p>
+</details>
+<br/>
+
 
 ## 4.1 Explore CoreDNS
 ![Lab 4.1 final result](../diagrams/lab_4_coredns.png)
