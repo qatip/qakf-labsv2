@@ -32,7 +32,6 @@ echo '<html><body><h1>Welcome to my home page!</h1></body></html>' > ~/index.htm
 </p>
 </details>
 <br/>
-
 5. Create a ConfigMap from the `index.html` file.
 
 <details><summary>show command</summary>
