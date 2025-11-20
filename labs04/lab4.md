@@ -56,7 +56,7 @@ kubectl create secret generic secrets --from-literal password=ReallySecret --nam
 </p>
 </details>
 <br/>
-7. Create the lab3frontend.yaml file to add a `volume` to the deployment with a `name` of `secret-volume` and a `type` of `secret`, referencing your newly-created `secret`. Add a `volumeMount` to the container that mounts your secret at `/data`
+7. Create lab4frontend.yaml file referencing the configmap and secret volumes ready for later deployment
 
 <details><summary>show YAML</summary>
 <p>
@@ -66,17 +66,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: lab3frontend
-  name: lab3frontend
+    app: lab4frontend
+  name: lab4frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: lab3frontend
+      app: lab4frontend
   template:
     metadata:
       labels:
-        app: lab3frontend
+        app: lab4frontend
     spec:
       containers:
       - image: public.ecr.aws/qa-wfl/qa-wfl/qakf/sfe:v1
