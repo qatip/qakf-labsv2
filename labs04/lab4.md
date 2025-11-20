@@ -66,17 +66,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: lab4frontend
-  name: lab4frontend
+    app: frontend
+  name: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: lab4frontend
+      app: frontend
   template:
     metadata:
       labels:
-        app: lab4frontend
+        app: frontend
     spec:
       containers:
       - image: public.ecr.aws/qa-wfl/qa-wfl/qakf/sfe:v1
@@ -99,6 +99,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        volumeMounts:
         - name: secret-volume
           mountPath: /data
       volumes:
