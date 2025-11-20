@@ -31,18 +31,20 @@ echo '<html><body><h1>Welcome to my home page!</h1></body></html>' > ~/index.htm
 </p>
 </details>
 <br/>
-5. Create a ConfigMap from the `index.html` file.
+5. Create a 'settings' ConfigMap in each namespace.
 
 <details><summary>show command</summary>
 <p>
 
 ```bash
-kubectl create configmap homepage --from-file ~/index.html
+kubectl create configmap settings --from-literal=colour=purple --namespace development
+kubectl create configmap settings --from-literal=colour=green --namespace production
 ```
 
 </p>
 </details>
 <br/>
+
 6. Create a `secret` called `secrets` from a literal value with a key of `password` in the dev and prod namespaces, with different values for each password.
 
 <details><summary>show command</summary>
