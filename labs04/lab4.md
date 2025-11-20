@@ -16,6 +16,22 @@ kubectl create ns production
 </details>
 <br/>
 
+4. Ceate a file named `index.html` in your home directory. Its contents should be similar to the following, but feel free to customise the "welcome" message to suit yourself:
+
+```html
+<html><body><h1>Welcome to my home page!</h1></body></html>'
+```
+
+<details><summary>show command</summary>
+<p>
+
+```bash
+echo '<html><body><h1>Welcome to my home page!</h1></body></html>' > ~/index.html
+```
+
+</p>
+</details>
+<br/>
 
 ## 4.1 Explore CoreDNS
 ![Lab 4.1 final result](../diagrams/lab_4_coredns.png)
