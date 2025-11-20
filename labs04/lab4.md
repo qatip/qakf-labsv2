@@ -99,15 +99,12 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-# ------ Add these lines ------
-        volumeMounts:
         - name: secret-volume
           mountPath: /data
       volumes:
       - name: secret-volume
         secret:
           secretName: secrets
-# -----------------------------
 ```
 
 </p>
