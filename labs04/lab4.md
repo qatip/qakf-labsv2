@@ -60,23 +60,21 @@ kubectl create secret generic secrets --from-literal password=ReallySecret --nam
 
 <details><summary>show YAML</summary>
 <p>
-
-```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: lab3frontend
-  name: lab3frontend
+    app: frontend
+  name: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: lab3frontend
+      app: frontend
   template:
     metadata:
       labels:
-        app: lab3frontend
+        app: frontend
     spec:
       containers:
       - image: public.ecr.aws/qa-wfl/qa-wfl/qakf/sfe:v1
@@ -99,7 +97,6 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-# ------ Add these lines ------
         volumeMounts:
         - name: secret-volume
           mountPath: /data
@@ -107,10 +104,7 @@ spec:
       - name: secret-volume
         secret:
           secretName: secrets
-# -----------------------------
-```
-
-</p>
+```yaml
 </details>
 <br/>
 
