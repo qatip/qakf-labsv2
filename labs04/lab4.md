@@ -1,4 +1,10 @@
 # Lab 4 - Networking
+## 4.0 Day 2 Code sync
+1. If running this lab on Day 2 of the course, artifacts expected from Day1 will not be present.
+2. This section will bring your current K8S (Kubernetes) configuration to 'continue from end of day 1'
+3. 
+
+
 ## 4.1 Explore CoreDNS
 ![Lab 4.1 final result](../diagrams/lab_4_coredns.png)
 1. Create a `public.ecr.aws/qa-wfl/qa-wfl/qakf/sbe` deployment in each of the `dev` and `prod` namespaces, using the `:v2` image in `dev` and the `:v1` image in `production`.
