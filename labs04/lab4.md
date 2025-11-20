@@ -60,21 +60,23 @@ kubectl create secret generic secrets --from-literal password=ReallySecret --nam
 
 <details><summary>show YAML</summary>
 <p>
+
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: frontend
-  name: frontend
+    app: lab3frontend
+  name: lab3frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      app: lab3frontend
   template:
     metadata:
       labels:
-        app: frontend
+        app: lab3frontend
     spec:
       containers:
       - image: public.ecr.aws/qa-wfl/qa-wfl/qakf/sfe:v1
@@ -97,6 +99,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+# ------ Add these lines ------
         volumeMounts:
         - name: secret-volume
           mountPath: /data
@@ -104,10 +107,12 @@ spec:
       - name: secret-volume
         secret:
           secretName: secrets
-```yaml
+# -----------------------------
+```
+
+</p>
 </details>
 <br/>
-
 
 ## 4.1 Explore CoreDNS
 ![Lab 4.1 final result](../diagrams/lab_4_coredns.png)
