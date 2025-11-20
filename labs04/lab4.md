@@ -33,6 +33,20 @@ echo '<html><body><h1>Welcome to my home page!</h1></body></html>' > ~/index.htm
 </details>
 <br/>
 
+5. Create a ConfigMap from the `index.html` file.
+
+<details><summary>show command</summary>
+<p>
+
+```bash
+kubectl create configmap homepage --from-file ~/index.html
+```
+
+</p>
+</details>
+<br/>
+
+
 ## 4.1 Explore CoreDNS
 ![Lab 4.1 final result](../diagrams/lab_4_coredns.png)
 1. Create a `public.ecr.aws/qa-wfl/qa-wfl/qakf/sbe` deployment in each of the `dev` and `prod` namespaces, using the `:v2` image in `dev` and the `:v1` image in `production`.
