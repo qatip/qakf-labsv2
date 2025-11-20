@@ -2,14 +2,14 @@
 ## 4.0 Day 2 Code sync
 1. If running this lab on Day 2 of the course, artifacts expected from Day1 will not be present.
 2. This section will bring your current K8S (Kubernetes) configuration to 'continue from end of day 1'
-3. Create two new namespaces: `dev` and `prod`. 
+3. Create two new namespaces: `development` and `production`. 
 
 <details><summary>show command</summary>
 <p>
 
 ```bash
-kubectl create namespace dev
-kubectl create ns prod
+kubectl create namespace development
+kubectl create ns production
 ```
 
 </p>
