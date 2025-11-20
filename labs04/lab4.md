@@ -15,7 +15,6 @@ kubectl create ns production
 </p>
 </details>
 <br/>
-
 4. Ceate a file named `index.html` in your home directory. Its contents should be similar to the following, but feel free to customise the "welcome" message to suit yourself:
 
 ```html
@@ -44,7 +43,19 @@ kubectl create configmap homepage --from-file ~/index.html
 </p>
 </details>
 <br/>
+6. Create a `secret` called `secrets` from a literal value with a key of `password` in the dev and prod namespaces, with different values for each password.
 
+<details><summary>show command</summary>
+<p>
+
+```bash
+kubectl create secret generic secrets --from-literal password=MySecretPhrase --namespace development
+kubectl create secret generic secrets --from-literal password=ReallySecret --namespace production
+```
+
+</p>
+</details>
+<br/>
 
 ## 4.1 Explore CoreDNS
 ![Lab 4.1 final result](../diagrams/lab_4_coredns.png)
