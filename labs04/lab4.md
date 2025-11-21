@@ -139,14 +139,14 @@ kubectl create deploy backend --image=public.ecr.aws/qa-wfl/qa-wfl/qakf/sbe:v2 -
 </details>
 <br/>
 
-2. Expose them both as `clusterIP` services on `port` 80 with a `target-port` of 8080, giving them both a `name` of `backend`.
+2. Expose them both as `clusterIP` services on `port` 80 with a `target-port` of 8080, giving them both a `name` of `backendsvc`.
 
 <details><summary>show commands</summary>
 <p>
 
 ```bash
-kubectl expose deployment backend --port 80 --target-port 8080 --name backend --namespace production 
-kubectl expose deployment backend --port 80 --target-port 8080 --name backend -n development
+kubectl expose deployment backend --port 80 --target-port 8080 --name backendsvc --namespace production 
+kubectl expose deployment backend --port 80 --target-port 8080 --name backendsvc -n development
 ```
 
 </p>
