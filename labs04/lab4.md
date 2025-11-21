@@ -316,11 +316,11 @@ ingress-nginx   ingress-nginx-controller-admission   ClusterIP      10.104.181.1
 
 <br/>
 
-11. Make a note of the nodePort number of the `ingress-nginx-controller` service. Browse to yourIp:nodePort where yourIP is the External address of your Controller node. You should get a 404 File Not Found error because, whilst we are hitting the Ingress controller, we haven't configured any ingresses, rules indicating which service we are trying to communicate with behind the controller. We're going to sort that out now.
+12. Make a note of the nodePort number of the `ingress-nginx-controller` service. Browse to yourIp:nodePort where yourIP is the External address of your Controller node. You should get a 404 File Not Found error because, whilst we are hitting the Ingress controller, we haven't configured any ingresses, rules indicating which service we are trying to communicate with behind the controller. We're going to sort that out now.
 
 
 
-14. Create an ingress rule for the dev frontend using nip.io in the dev namespace. You might want to call the file `devingress.yaml`.
+13. Create an ingress rule for the dev frontend using nip.io in the dev namespace. You might want to call the file `devingress.yaml`.
 
 <details><summary>show command</summary>
 <p>
@@ -352,7 +352,7 @@ spec:
 </details>
 <br/>
 
-15. Create the ingress.
+14. Create the ingress.
 
 <details><summary>show command</summary>
 <p>
@@ -365,9 +365,9 @@ kubectl create -f devingress.yaml
 </details>
 <br/>
 
-16. Point your web browser at *dev*.**your-ip***.nip.io*:**ingress-nodePort**, for example in this instance it's `dev.172.17.1.10.nip.io:31886` 
+15. Point your web browser at *dev*.**your-ip***.nip.io*:**ingress-nodePort**, for example in this instance it's `dev.172.17.1.10.nip.io:31886` 
 
-17. Create another ingress for the production namespace. It will be very similar to the devingress.yaml, but you need to make sure you change all the bits that need to change.
+16. Create another ingress for the production namespace. It will be very similar to the devingress.yaml, but you need to make sure you change all the bits that need to change.
 
 <details><summary>show command</summary>
 <p>
@@ -399,6 +399,6 @@ spec:
 </details>
 <br/>
 
-18. Apply and test the prodingress.yaml file, similar to steps 15 and 16 above (just replace "prod" with "dev" in those commands).
+17. Apply and test the prodingress.yaml file, similar to steps 15 and 16 above (just replace "prod" with "dev" in those commands).
 
-19. That's it, you're done! Let your instructor know that you've finished the lab.
+18. That's it, you're done! Let your instructor know that you've finished the lab.
