@@ -123,15 +123,16 @@ External traffic needs to be able to access the Frontend. Therefore, Frontend co
 generates a service Cluster IP address. This is an internal IP, inaccessible to external clients. In front of this we could create a NodePort per node which would allow external traffic to be directed to the External IP address of a specific node in our cluster. A much better alternative would be an Ingress Controller. This allows a single External IP address to be used for all incoming traffic to all frontend offerings in the cluster. The Frontend to which access is required is identified by the creation of an Ingress behind the Ingress Controller. The format of URL requested by external clients identifies the particular Ingress required and thus the Ingress Controller directs the traffic to the appropriate service which directs it to an appropriate pod. This is similar to context switch load balancing in traditional networking.        
 
 ![Lab 4.1 final result](../diagrams/lab_4_coredns.png)
-1. Lets start by creating the Backend tier and lets have 2 versions. Version 1 will be the current production version whilst Version 2 will be used in testing.
-2. Create a `public.ecr.aws/qa-wfl/qa-wfl/qakf/sbe` deployment in each of the namespaces, using the `:v2` image in `development` and the `:v1` image in `production`.
+1. Lets start by creating the Backend tier and lets have 2 versions. Version 1 will be the current production version whilst Version 2 will be in devlopment.
+
+2. Create a backend deploymemt in each namespace using the image `public.ecr.aws/qa-wfl/qa-wfl/qakf/sbe` v2 in development` and the v1 in production.
 
 <details><summary>show commands</summary>
 <p>
 
 ```bash
-kubectl create deploy lab4backend --image=public.ecr.aws/qa-wfl/qa-wfl/qakf/sbe:v1 -n production 
-kubectl create deploy lab4backend --image=public.ecr.aws/qa-wfl/qa-wfl/qakf/sbe:v2 -n development
+kubectl create deploy backend --image=public.ecr.aws/qa-wfl/qa-wfl/qakf/sbe:v1 -n production 
+kubectl create deploy backend --image=public.ecr.aws/qa-wfl/qa-wfl/qakf/sbe:v2 -n development
 ```
 
 </p>
