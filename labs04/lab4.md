@@ -139,21 +139,23 @@ kubectl create deploy backend --image=public.ecr.aws/qa-wfl/qa-wfl/qakf/sbe:v2 -
 </details>
 <br/>
 
-2. Expose them both as `clusterIP` services on `port` 80 with a `target-port` of 8080, giving them both a `name` of `backendsvc`.
+2. Expose them both as `clusterIP` services on `port` 80 with a `target-port` of 8080, giving them both a `name` of `backend`.
 
 <details><summary>show commands</summary>
 <p>
 
 ```bash
-kubectl expose deployment backend --port 80 --target-port 8080 --name backendsvc --namespace production 
-kubectl expose deployment backend --port 80 --target-port 8080 --name backendsvc -n development
+kubectl expose deployment backend --port 80 --target-port 8080 --name backend --namespace production 
+kubectl expose deployment backend --port 80 --target-port 8080 --name backend -n development
 ```
 
 </p>
 </details>
 <br/>
 
-3. We're going to use the `busybox` image to interact with DNS using nslookups. Create a pod named `nettools` in both the `development` and `production` namespaces. Use the `busybox` image. You'll need it to run a `command` of `sleep infinity` or it will immediately transition to a `completed` state.
+3. As the services are created they are automatically registered with DNS. So there will be a registration of 'backend' in each each namespace. A container in the namepace can therefore request the service, by name, and DNS will identify the Cluster IP of the service in that namespace. Lets test this by creating a container that we can connect to, in each workspace, and inside of which we can generate a service request. This will highlight how internal containers can easily find other internal conatiners without needing to know their IP addresses. So, we are going to use the `busybox` image to interact with DNS using nslookups.
+
+4. Create a pod named `nettools` in both the `development` and `production` namespaces. Use the `busybox` image. We'll need it to run a `command` of `sleep infinity` otherwise it will immediately transition to a `completed` state.
 
 <details><summary>show commands</summary>
 <p>
@@ -167,14 +169,14 @@ kubectl run nettools --image=busybox -n development --command sleep infinity
 </details>
 <br/>
 
-4. Use `kubectl exec` to execute the command `nslookup backend` on the two pods in the two different namespaces.
+5. Use `kubectl exec` to execute the command `nslookup backend` on the two pods in the two different namespaces.
 
 <details><summary>show commands</summary>
 <p>
 
 ```bash
 kubectl exec -it nettools -n production -- nslookup backend
-kubectl exec -it nettools -n development -- nslookup backend
+kubectl exec -it nettools -n development -- nslookup backen
 ```
 
 </p>
@@ -204,9 +206,9 @@ command terminated with exit code 1
 ```
 <br/>
 
-Note that CoreDNS tried a lot of variations of the name `backend` but one of the first was for `backend.development.svc.clsuter.local` in this case. When run against the prod namespace, it'll look there. This is to illustrate that CoreDNS "knows" which namespace a pod is running in and returns the appropriate lookup.
+Note that CoreDNS tried a lot of variations of the name `backend` but one of the first was for `backend.development.svc.clsuter.local` in this case. When run against the production namespace, it'll look there. This is to illustrate that CoreDNS "knows" which namespace a pod is running in and returns the appropriate lookup.
 
-5. There's only one placeholder remaining in our simple front end application, for the data from the backing service. Let's finish that off now by `apply`ing (a copy of) the sfe deployment in both namespaces. Again, you might wish to change the `lab3frontend`s to `lab4frontend`s or simply `frontend`s.
+5. So, given that assurance, we can now deploy our Frontend. The image used is coded to look for the backend and therefore this should 'just work'.
 
 <details><summary>show command</summary>
 <p>
