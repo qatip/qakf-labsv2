@@ -125,7 +125,7 @@ generates a service Cluster IP address. This is an internal IP, inaccessible to 
 ![Lab 4.1 final result](../diagrams/lab_4_coredns.png)
 1. Lets start by creating the Backend tier and lets have 2 versions. Version 1 will be the current production version whilst Version 2 will be in devlopment.
 
-2. Create a backend deploymemt in each namespace using the image `public.ecr.aws/qa-wfl/qa-wfl/qakf/sbe` v2 in development` and the v1 in production.
+2. Create a backend deployment in each namespace using the image `public.ecr.aws/qa-wfl/qa-wfl/qakf/sbe` v2 in development and v1 in production.
 
 <details><summary>show commands</summary>
 <p>
@@ -145,8 +145,8 @@ kubectl create deploy backend --image=public.ecr.aws/qa-wfl/qa-wfl/qakf/sbe:v2 -
 <p>
 
 ```bash
-kubectl expose deployment lab4backend --port 80 --target-port 8080 --name backend --namespace production 
-kubectl expose deployment lab4backend --port 80 --target-port 8080 --name backend -n development
+kubectl expose deployment backend --port 80 --target-port 8080 --name backend --namespace production 
+kubectl expose deployment backend --port 80 --target-port 8080 --name backend -n development
 ```
 
 </p>
