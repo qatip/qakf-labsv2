@@ -176,7 +176,7 @@ kubectl run nettools --image=busybox -n development --command sleep infinity
 
 ```bash
 kubectl exec -it nettools -n production -- nslookup backend
-kubectl exec -it nettools -n development -- nslookup backen
+kubectl exec -it nettools -n development -- nslookup backend
 ```
 
 </p>
