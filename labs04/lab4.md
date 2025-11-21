@@ -115,6 +115,14 @@ spec:
 <br/>
 
 ## 4.1 Explore CoreDNS
+Objective: The goal of this lab is to demonstrate a 2-tier solution hosted in Kubernetes, a Frontend and a Backend. The Frontend will be a containerized web service with a default webpage that identifies its Pod name, namespace, configmap details, secrets details also the response it receives when communicating with its backend component. The Backend is a containerized application that simply returns it's version details when requested.
+
+Within the Kubernetes cluster, the Frontend containers will not know which containers are running the backend app. The Backend containers must therefore be positioned behind a service with a fixed internal IP address, known as a Cluster IP, which must be registered in DNS. This service registration is automatic and namespace specific. The Frontend containers can therefore query DNS for service address resolution and obtain the service IP address for communication to a backend container within their namespace.
+
+External traffic needs to be able to access the Frontend. Therefore, Frontend containers are also put behind a service which 
+generates a service Cluster IP address. This is an internal IP, inaccessible to external clients. In front of this we could create a NodePort per node which would allow external traffic to be directed to the Pulic IP address of a specific node in our cluster. A much better alternative would be an ingress controller. This allows a single Public IP address to be used for all incoming traffic to all Frontend offerings in the cluster. The Frontend to which access is required is identified by the creation of an ingress behind the ingress controller. The format of URL requested by external clients identifies the particular ingess required and thus the ingress controller directs the traffic to the appropriate service. This is similar to context switch load balancing in traditional networking.        
+
+
 ![Lab 4.1 final result](../diagrams/lab_4_coredns.png)
 1. Create a `public.ecr.aws/qa-wfl/qa-wfl/qakf/sbe` deployment in each of the `dev` and `prod` namespaces, using the `:v2` image in `dev` and the `:v1` image in `production`.
 
