@@ -246,13 +246,44 @@ frontend-5b6dcf74cb-kvvvn     1/1     Running   0          14m   192.168.29.154 
 
 7. **cURL** one of the frontend pods' IP addresses, targetting port 8080. You should see a v2 message in the dev namespace and a v1 message in production.
 
-## 4.2 Install an ingress controller
+## 4.2 Expose the frontends
+
+8. Expose both of the frontends in the two different namespaces. Expose them both as `clusterIP` services on `port` 80 with a `target-port` of 8080, giving them both a `name` of `frontend`.
+
+<details><summary>show commands</summary>
+<p>
+
+```bash
+kubectl expose deployment frontend --port 80 --target-port 8080 --name frontend --namespace production 
+kubectl expose deployment frontend --port 80 --target-port 8080 --name frontend -n development
+```
+
+</p>
+</details>
+<br/>
+
+9. Check that you can reach them both by finding their IP addresses and **cURL**ing them.
+
+<details><summary>show command</summary>
+<p>
+
+```bash
+kubectl get svc -A
+curl dev-frontend-service-ip
+curl prod-frontend-service-ip
+```
+
+</p>
+</details>
+<br/>
+
+## 4.3 Install an ingress controller
 
 ![Lab 4.2 final result](../diagrams/lab_4_ingress.png)
 
 Because we've exposed the back- and front-end services as `clusterIP`s, we can't currently reach them from "outside" the cluster (the host machine). That's fine for the backend services, but the frontend needs to be reachable. If we were running in a cloud, we could expose the two frontends with two load balancer services, or use the cloud vendor's ingress controller. We'll use a couple of ingress rules behind a single Nginx ingress controller.
 
-9. Run the following command to install an Nginx Ingress Controller. A whole bunch of resources will be created. Helm is a package manager for Kubernetes, which we haven't covered yet, but we will, in the very next module.
+10. Run the following command to install an Nginx Ingress Controller. A whole bunch of resources will be created. Helm is a package manager for Kubernetes, which we haven't covered yet, but we will, in the very next module.
 
 ```bash
 helm install ingress-nginx ingress-nginx \
@@ -260,7 +291,7 @@ helm install ingress-nginx ingress-nginx \
   --namespace ingress-nginx --create-namespace
 ```
 
-10. Check that the ingress service is running. Get a list of all services in all namespaces.
+11. Check that the ingress service is running. Get a list of all services in all namespaces.
 
 <details><summary>show command</summary>
 <p>
@@ -287,36 +318,7 @@ ingress-nginx   ingress-nginx-controller-admission   ClusterIP      10.104.181.1
 
 11. Make a note of the nodePort number of the `ingress-nginx-controller` service. Browse to yourIp:nodePort where yourIP is the External address of your Controller node. You should get a 404 File Not Found error because, whilst we are hitting the Ingress controller, we haven't configured any ingresses, rules indicating which service we are trying to communicate with behind the controller. We're going to sort that out now.
 
-## 4.3 Expose the frontends
 
-12. Expose both of the frontends in the two different namespaces. Expose them both as `clusterIP` services on `port` 80 with a `target-port` of 8080, giving them both a `name` of `frontend`.
-
-<details><summary>show commands</summary>
-<p>
-
-```bash
-kubectl expose deployment frontend --port 80 --target-port 8080 --name frontend --namespace production 
-kubectl expose deployment frontend --port 80 --target-port 8080 --name frontend -n development
-```
-
-</p>
-</details>
-<br/>
-
-13. Check that you can reach them both by finding their IP addresses and **cURL**ing them.
-
-<details><summary>show command</summary>
-<p>
-
-```bash
-kubectl get svc -A
-curl dev-frontend-service-ip
-curl prod-frontend-service-ip
-```
-
-</p>
-</details>
-<br/>
 
 14. Create an ingress rule for the dev frontend using nip.io in the dev namespace. You might want to call the file `devingress.yaml`.
 
