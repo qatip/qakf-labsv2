@@ -153,7 +153,7 @@ kubectl expose deployment backend --port 80 --target-port 8080 --name backend -n
 </details>
 <br/>
 
-3. As the services are created they are automatically registered with DNS. So there will be a registration of 'backend' in each each namespace. A container in the namepace can therefore request the service, by name, and DNS will identify the Cluster IP of the service in that namespace. Lets test this by creating a container that we can connect to, in each workspace, and inside of which we can generate a service request. This will highlight how internal containers can easily find other internal conatiners without needing to know their IP addresses. So, we are going to use the `busybox` image to interact with DNS using nslookups.
+3. As the services are created they are automatically registered with DNS. So there will be a registration of 'backend' in each each namespace. A pod in the namepace can therefore request the service, by name, and DNS will identify the Cluster IP of the service in that namespace. Lets test this by creating a pod that we can connect to, in each workspace, and inside the container of which we can generate a service request. This will highlight how internal pods can easily find other internal pods without needing to know their IP addresses. So, we are going to use the `busybox` image to interact with DNS using nslookups.
 
 4. Create a pod named `nettools` in both the `development` and `production` namespaces. Use the `busybox` image. We'll need it to run a `command` of `sleep infinity` otherwise it will immediately transition to a `completed` state.
 
@@ -244,9 +244,7 @@ frontend-5b6dcf74cb-kvvvn     1/1     Running   0          14m   192.168.29.154 
 
 <br/>
 
-7. **cURL** one of the frontend pods' IP addresses. You should see a v2 message in the dev namespace and a v1 message in production.
-
-8. **Optional but maybe interesting** `exec` into one of your frontend pods and run `cat /code/app/main.py`. See (around the 25th line) it's just asking for "http://backend"? That's basically what you did earlier with the nslookups. CoreDNS still knows which namespace your workload is running in. And the lack of a port number is why we had to have the service listening on port 80 but forwarding to 8080 (which the app is listening on).
+7. **cURL** one of the frontend pods' IP addresses, targetting port 8080. You should see a v2 message in the dev namespace and a v1 message in production.
 
 ## 4.2 Install an ingress controller
 
@@ -287,7 +285,7 @@ ingress-nginx   ingress-nginx-controller-admission   ClusterIP      10.104.181.1
 
 <br/>
 
-11. Make a note of the nodePort number of the `ingress-nginx-controller` service. Browse to yourIp:nodePort. On the standard build for this course, that's 172.17.1.10 but you could use `hostname -i` to check. You should get a 404 File Not Found error because we haven't configured any backends. That's ingress backends, not our simple backend service, and we're going to sort that out now.
+11. Make a note of the nodePort number of the `ingress-nginx-controller` service. Browse to yourIp:nodePort where yourIP is the External address of your Controller node. You should get a 404 File Not Found error because, whilst we are hitting the Ingress controller, we haven't configured any ingresses, rules indicating which service we are trying to communicate with behind the controller. We're going to sort that out now.
 
 ## 4.3 Expose the frontends
 
@@ -297,8 +295,8 @@ ingress-nginx   ingress-nginx-controller-admission   ClusterIP      10.104.181.1
 <p>
 
 ```bash
-kubectl expose deployment lab4frontend --port 80 --target-port 8080 --name frontend --namespace production 
-kubectl expose deployment lab4frontend --port 80 --target-port 8080 --name frontend -n development
+kubectl expose deployment frontend --port 80 --target-port 8080 --name frontend --namespace production 
+kubectl expose deployment frontend --port 80 --target-port 8080 --name frontend -n development
 ```
 
 </p>
@@ -401,13 +399,4 @@ spec:
 
 18. Apply and test the prodingress.yaml file, similar to steps 15 and 16 above (just replace "prod" with "dev" in those commands).
 
-<details><summary>Stretch goal - optional exercise</summary>
-<p>
-
-19. **Optional stretch goal** create the backend deployment and service, the frontend deployment and service and an ingress in the `test` namespace as well. You might want to change the backend deployment's image versions to dev:v3, test:v2 and prod:v1 (because there's a reason we created three of them!)
-
-</p>
-</details>
-<br/>
-
-20. That's it, you're done! Let your instructor know that you've finished the lab.
+19. That's it, you're done! Let your instructor know that you've finished the lab.
