@@ -420,7 +420,7 @@ kubectl expose deployment lab3frontend --port 8080 --type NodePort -n developmen
 <p>
 
 ```bash
-kubectl get service lab3frontend --all-namespaces
+kubectl get service -A -o wide
 ```
 
 </p>
