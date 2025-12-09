@@ -383,7 +383,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: prod.172.17.1.10.nip.io #change this from dev
+  - host: prod.172.17.1.10.nip.io #change this from dev and ensure IP address matches your controllers external address
     http:
       paths:
       - path: /
