@@ -320,7 +320,7 @@ ingress-nginx   ingress-nginx-controller-admission   ClusterIP      10.104.181.1
 
 
 
-13. Create an ingress rule for the dev frontend using nip.io in the dev namespace. You might want to call the file `devingress.yaml`. ENUSURE YOU UPDATE LINE 9 SO THE IP MATCHES THE EXTERNAL IP ADDRESS OF YOUR CONTROLLER VM.
+13. Create an ingress rule for the dev frontend using nip.io in the dev namespace. You might want to call the file `devingress.yaml`. ENSURE YOU UPDATE LINE 9 SO THE IP MATCHES THE EXTERNAL IP ADDRESS OF YOUR CONTROLLER VM.
 
 <details><summary>show command</summary>
 <p>
